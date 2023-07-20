@@ -1,21 +1,17 @@
-import 'package:favorite_places/model/place_item.dart';
 import 'package:flutter/material.dart';
-import 'package:favorite_places/widgets/new_place.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class PlacesListScreen extends StatefulWidget {
+import 'package:favorite_places/widgets/new_place.dart';
+import 'package:favorite_places/providers/places_provider.dart';
+
+class PlacesListScreen extends ConsumerStatefulWidget {
   const PlacesListScreen({super.key});
 
   @override
-  State<PlacesListScreen> createState() => _PlacesListScreenState();
+  ConsumerState<PlacesListScreen> createState() => _PlacesListScreenState();
 }
 
-class _PlacesListScreenState extends State<PlacesListScreen> {
-  final List _placeItems = [
-    const PlaceItem(title: 'New Orleans'),
-    const PlaceItem(title: 'Ricamab'),
-    const PlaceItem(title: 'Malibou'),
-  ];
-
+class _PlacesListScreenState extends ConsumerState<PlacesListScreen> {
   void _addNewPlace(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
@@ -26,13 +22,14 @@ class _PlacesListScreenState extends State<PlacesListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final places = ref.watch(favoritePlacesNotifier);
     Widget content = const Center(
       child: Text('No places added yet'),
     );
 
-    if (_placeItems.isNotEmpty) {
+    if (places.isNotEmpty) {
       content = ListView.builder(
-        itemCount: _placeItems.length,
+        itemCount: places.length,
         itemBuilder: ((context, index) {
           // for (final place in _placeItems) {
           //   return ListTile(
@@ -41,7 +38,7 @@ class _PlacesListScreenState extends State<PlacesListScreen> {
           //     ),
           //   );
           // }
-          final place = _placeItems[index];
+          final place = places[index];
           return ListTile(
             title: Text(
               place.title,
