@@ -7,10 +7,6 @@ final List<PlaceItem> _placeItems = [
   const PlaceItem(title: 'Malibou'),
 ];
 
-// final placesProvider = Provider((ref) {
-//   return _placeItems;
-// });
-
 class FavoritePlacesNotifier extends StateNotifier<List<PlaceItem>> {
   FavoritePlacesNotifier() : super(_placeItems);
 
@@ -22,5 +18,5 @@ class FavoritePlacesNotifier extends StateNotifier<List<PlaceItem>> {
 }
 
 final favoritePlacesNotifier =
-    StateNotifierProvider<FavoritePlacesNotifier, dynamic>(
+    StateNotifierProvider<FavoritePlacesNotifier, List<PlaceItem>>(
         (ref) => FavoritePlacesNotifier());
